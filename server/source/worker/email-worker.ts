@@ -18,18 +18,17 @@ const processBatchWise = async (obj: any, username: string, socketId: string) =>
     }
     for (let i = 0; i < bulks.length; i++) {
         try {
-            // const results = await sendEmails(bulks[i].map((r: any) => {
-            //     return {
-            //         from: username,
-            //         to: r,
-            //         subject: obj.subject,
-            //         text: obj.description,
-            //         cc: obj.ccEmail,
-            //         bcc: obj.bccEmail
-            //     }
-            // }), transporter);
-            // console.log('results :: ', results)
-            await delay(12000)
+            const results = await sendEmails(bulks[i].map((r: any) => {
+                return {
+                    from: username,
+                    to: r,
+                    subject: obj.subject,
+                    text: obj.description,
+                    cc: obj.ccEmail,
+                    bcc: obj.bccEmail
+                }
+            }), transporter);
+            console.log('results :: ', results)
             parentPort?.postMessage({
                 progress: (i + 1) / finalLength * 100,
                 requestId: obj.requestId
@@ -42,6 +41,4 @@ const processBatchWise = async (obj: any, username: string, socketId: string) =>
 const sendEmails = async (opts: any, transporter: any) => {
     return Promise.all(opts.map((r: any) => transporter.sendMail(r)))
 }
-const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
-
 processBatchWise(workerData.data.obj, workerData.data.username, workerData.data.socketId)
