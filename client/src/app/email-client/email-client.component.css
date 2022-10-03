@@ -1,0 +1,15 @@
+.margin-h2 {
+    margin: 10px;
+  }
+  
+  .result-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .result-margin {
+    margin: 0 10px;
+  }
+  

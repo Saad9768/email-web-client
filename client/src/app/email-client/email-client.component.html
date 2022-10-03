@@ -1,0 +1,84 @@
+<h3 class="card-header">Email Web Client</h3>
+<div class="card-body">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>To</label>
+      <input
+        type="text"
+        formControlName="toEmail"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': checkErrorEmail(f.toEmail) }"
+      />
+      <div *ngIf="checkErrorEmail(f.toEmail)" class="invalid-feedback">
+        <div *ngIf="f.toEmail?.errors?.required">Email(s) is required</div>
+        <div *ngIf="validateEmail(f.toEmail.value)">Invalid Email</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>CC</label>
+      <input type="text" formControlName="ccEmail" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>BCC</label>
+      <input type="text" formControlName="bccEmail" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Subject</label>
+      <input
+        type="text"
+        formControlName="subject"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': f.subject.errors && f.subject.touched }"
+      />
+      <div
+        *ngIf="f.subject.errors && f.subject.touched"
+        class="invalid-feedback"
+      >
+        <div *ngIf="f.subject.errors.required">Subject is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea
+        formControlName="description"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': f.description.errors && f.description.touched
+        }"
+      >
+      </textarea>
+      <div
+        *ngIf="f.description.errors && f.description.touched"
+        class="invalid-feedback"
+      >
+        <div *ngIf="f.description.errors.required">Description is required</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col">
+        <button [disabled]="loading" class="btn btn-primary">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Send Email
+        </button>
+      </div>
+    </div>
+  </form>
+  <mat-card *ngFor="let prog of progressRecieved">
+    <mat-card-content>
+      <h2 class="margin-h2">Email Progress</h2>
+      <section class="result-section">
+        <mat-progress-bar 
+          class="result-margin"
+          [color]="color"
+          [mode]="mode"
+          [value]="getValue(prog)"
+          [bufferValue]="bufferValue"
+        >
+        </mat-progress-bar>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</div>
